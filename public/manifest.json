@@ -1,0 +1,17 @@
+{
+  "name": "Mi Gusto — Reapertura Bella Vista",
+  "short_name": "Mi Gusto Ruleta",
+  "description": "Girá la ruleta y ganá premios en la gran reapertura de Mi Gusto",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#c53030",
+  "theme_color": "#c53030",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%23c53030'/><text y='155' x='96' font-size='140' text-anchor='middle'>🥟</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

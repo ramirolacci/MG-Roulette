@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "label": "10% OFF",
+    "description": "10% de descuento en tu próxima compra",
+    "color": "#E53E3E",
+    "textColor": "#FFFFFF",
+    "probability": 0.25,
+    "emoji": "🏷️"
+  },
+  {
+    "id": 2,
+    "label": "20% OFF",
+    "description": "20% de descuento en tu próxima compra",
+    "color": "#DD6B20",
+    "textColor": "#FFFFFF",
+    "probability": 0.15,
+    "emoji": "💰"
+  },
+  {
+    "id": 3,
+    "label": "Empanada gratis",
+    "description": "¡Una empanada gratis en tu próxima visita!",
+    "color": "#38A169",
+    "textColor": "#FFFFFF",
+    "probability": 0.15,
+    "emoji": "🥟"
+  },
+  {
+    "id": 4,
+    "label": "Bebida gratis",
+    "description": "Una bebida gratis con tu pedido",
+    "color": "#3182CE",
+    "textColor": "#FFFFFF",
+    "probability": 0.10,
+    "emoji": "🥤"
+  },
+  {
+    "id": 5,
+    "label": "Postre gratis",
+    "description": "Un postre gratis con tu pedido",
+    "color": "#D53F8C",
+    "textColor": "#FFFFFF",
+    "probability": 0.10,
+    "emoji": "🍮"
+  },
+  {
+    "id": 6,
+    "label": "2x1 Empanadas",
+    "description": "Comprás una docena y llevás dos",
+    "color": "#805AD5",
+    "textColor": "#FFFFFF",
+    "probability": 0.05,
+    "emoji": "🎉"
+  },
+  {
+    "id": 7,
+    "label": "Sin premio",
+    "description": "¡No te rajes! Seguí participando",
+    "color": "#718096",
+    "textColor": "#FFFFFF",
+    "probability": 0.15,
+    "emoji": "😅"
+  },
+  {
+    "id": 8,
+    "label": "Snack gratis",
+    "description": "Un snack gratis con tu próximo pedido",
+    "color": "#D69E2E",
+    "textColor": "#FFFFFF",
+    "probability": 0.05,
+    "emoji": "🥙"
+  }
+]
