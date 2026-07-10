@@ -72,7 +72,7 @@ export default function LandingPage({ onPlay }: LandingPageProps) {
               className="w-full bg-gold hover:brightness-110 active:scale-95 text-black font-black text-2xl py-5 rounded-2xl shadow-2xl transition-all duration-200 flex items-center justify-center gap-3 border-b-4 border-[#a67c20]"
             >
               <Gift className="w-7 h-7" />
-              ¡Jugar ahora!
+              ¡Empezar ahora!
             </button>
 
             <div className="flex items-center gap-2 text-white/70 text-base max-w-3xl text-center leading-relaxed">
