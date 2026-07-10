@@ -54,7 +54,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen w-full text-white"
+      className="h-screen w-full text-white"
       style={{
         backgroundColor: '#050505',
         backgroundImage: `url(${backgroundImage})`,
@@ -63,7 +63,7 @@ export default function App() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="w-full min-h-screen">
+      <div className="h-full w-full">
         {page === 'landing' && (
           <LandingPage onPlay={handlePlay} />
         )}
