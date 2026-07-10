@@ -50,13 +50,14 @@ export default function RoulettePage({ prizes, participant, onBack, onPrizeWon, 
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-700 via-red-600 to-orange-500 flex flex-col">
+    <div className="min-h-screen flex flex-col relative overflow-hidden">
+      <div className="absolute inset-0 bg-black/70" />
       {/* Header */}
-      <div className="flex items-center gap-4 px-6 pt-8 pb-4">
+      <div className="relative flex items-center gap-4 px-6 pt-8 pb-4">
         {spinState === 'idle' && (
           <button
             onClick={onBack}
-            className="w-12 h-12 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+            className="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors border border-white/10"
           >
             <ArrowLeft className="w-6 h-6 text-white" />
           </button>
@@ -65,20 +66,20 @@ export default function RoulettePage({ prizes, participant, onBack, onPrizeWon, 
           <h2 className="text-white font-black text-2xl">¡La ruleta!</h2>
           <p className="text-white/80 text-sm">Hola, {participant.name.split(' ')[0]} — Paso 2 de 2</p>
         </div>
-        <div className="ml-auto w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-          <span className="text-lg">🥟</span>
+        <div className="ml-auto w-10 h-10 bg-white/10 rounded-full flex items-center justify-center shadow-lg border border-white/10">
+          <img src={new URL('/LOGOBOT.png', import.meta.url).href} alt="Mi Gusto" className="w-8 h-8 object-contain" />
         </div>
       </div>
 
       {/* Progress bar */}
-      <div className="px-6 mb-2">
-        <div className="w-full h-2 bg-white/20 rounded-full">
-          <div className="h-2 bg-yellow-400 rounded-full w-full transition-all duration-500" />
+      <div className="relative px-6 mb-2">
+        <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-2 bg-gold rounded-full w-full transition-all duration-500" />
         </div>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-between px-6 py-6 gap-6">
+      <div className="relative flex-1 flex flex-col items-center justify-between px-6 py-6 gap-6">
         {/* Roulette */}
         <div className="flex-1 flex items-center justify-center w-full">
           <div className="relative w-full max-w-[380px] aspect-square">
@@ -114,7 +115,7 @@ export default function RoulettePage({ prizes, participant, onBack, onPrizeWon, 
           {spinState === 'idle' && (
             <button
               onClick={handleSpin}
-              className="w-full bg-yellow-400 hover:bg-yellow-300 active:scale-95 text-red-700 font-black text-2xl py-5 rounded-2xl shadow-2xl transition-all duration-200 border-b-4 border-yellow-600 flex items-center justify-center gap-3"
+              className="w-full bg-gold hover:brightness-110 active:scale-95 text-black font-black text-2xl py-5 rounded-2xl shadow-2xl transition-all duration-200 border-b-4 border-[#a67c20] flex items-center justify-center gap-3"
             >
               🎰 ¡GIRAR!
             </button>

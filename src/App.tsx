@@ -11,6 +11,7 @@ export default function App() {
   const [page, setPage] = useState<AppPage>(() =>
     window.location.hash === '#admin' ? 'admin' : 'landing'
   );
+  const backgroundImage = new URL('/background-text.jpg', import.meta.url).href;
   const [currentParticipant, setCurrentParticipant] = useState<Participant | null>(null);
   const { prizes, loading: prizesLoading } = usePrizes();
   const { participants, addParticipant, updateParticipantPrize, exportCSV } = useParticipants();
@@ -42,7 +43,7 @@ export default function App() {
 
   if (prizesLoading) {
     return (
-      <div className="min-h-screen bg-red-600 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-[#050505] text-white">
         <div className="text-center text-white space-y-4">
           <div className="text-6xl animate-spin">🥟</div>
           <p className="font-bold text-lg">Cargando...</p>
@@ -52,32 +53,43 @@ export default function App() {
   }
 
   return (
-    <div className="max-w-lg mx-auto min-h-screen" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
-      {page === 'landing' && (
-        <LandingPage onPlay={handlePlay} />
-      )}
-      {page === 'form' && (
-        <FormPage
-          onBack={() => setPage('landing')}
-          onSubmit={handleFormSubmit}
-        />
-      )}
-      {page === 'roulette' && currentParticipant && (
-        <RoulettePage
-          prizes={prizes}
-          participant={currentParticipant}
-          onBack={() => setPage('form')}
-          onPrizeWon={handlePrizeWon}
-          onRestart={handleRestart}
-        />
-      )}
-      {page === 'admin' && (
-        <AdminPage
-          participants={participants}
-          onBack={handleAdminBack}
-          onExportCSV={exportCSV}
-        />
-      )}
+    <div
+      className="min-h-screen w-full text-white"
+      style={{
+        backgroundColor: '#050505',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="w-full min-h-screen">
+        {page === 'landing' && (
+          <LandingPage onPlay={handlePlay} />
+        )}
+        {page === 'form' && (
+          <FormPage
+            onBack={() => setPage('landing')}
+            onSubmit={handleFormSubmit}
+          />
+        )}
+        {page === 'roulette' && currentParticipant && (
+          <RoulettePage
+            prizes={prizes}
+            participant={currentParticipant}
+            onBack={() => setPage('form')}
+            onPrizeWon={handlePrizeWon}
+            onRestart={handleRestart}
+          />
+        )}
+        {page === 'admin' && (
+          <AdminPage
+            participants={participants}
+            onBack={handleAdminBack}
+            onExportCSV={exportCSV}
+          />
+        )}
+      </div>
     </div>
   );
 }

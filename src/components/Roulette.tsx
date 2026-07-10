@@ -153,7 +153,7 @@ export default function Roulette({ prizes, targetIndex, spinning, onSpinEnd }: R
     <div className="relative flex items-center justify-center">
       {/* Pointer */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-20 flex flex-col items-center">
-        <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[28px] border-l-transparent border-r-transparent border-t-red-600 drop-shadow-lg" />
+        <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[28px] border-l-transparent border-r-transparent border-t-gold drop-shadow-lg" />
       </div>
 
       <canvas

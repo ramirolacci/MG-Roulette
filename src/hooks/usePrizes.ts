@@ -6,7 +6,7 @@ export function usePrizes() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/prizes.json')
+    fetch(new URL('/prizes.json', import.meta.url).href)
       .then((r) => r.json())
       .then((data: Prize[]) => {
         setPrizes(data);
