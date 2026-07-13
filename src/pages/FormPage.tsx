@@ -24,9 +24,20 @@ interface FormErrors {
 }
 
 const NEIGHBORHOODS = [
-  'Bella Vista', 'San Miguel', 'Palermo', 'Belgrano', 'Villa del Parque',
-  'Flores', 'Caballito', 'Almagro', 'Balvanera', 'San Cristóbal',
-  'Recoleta', 'San Telmo', 'Mataderos', 'Villa Urquiza', 'Otro',
+  'Bella Vista',
+  'Villa Ballester',
+  'Villa Bosch',
+  'Villa Adelina',
+  'Munro',
+  'Villa Pueyrredón',
+  'Belgrano',
+  'Palermo',
+  'Colegiales',
+  'Núñez',
+  'Saavedra',
+  'Villa Devoto',
+  'Villa Ortúzar',
+  'Otro',
 ];
 
 export default function FormPage({ onBack, onSubmit }: FormPageProps) {
@@ -127,7 +138,7 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
         {/* Form card */}
         <form
           onSubmit={handleSubmit}
-          className="relative w-full bg-[#111111] border border-white/10 rounded-[32px] px-6 pt-8 pb-6 flex flex-col gap-6"
+          className="relative w-full mt-3 bg-[#111111] border border-white/10 rounded-[32px] px-6 pt-8 pb-6 flex flex-col gap-6"
         >
         <div className="text-center mb-2 px-2 sm:px-0">
           <h3 className="text-white font-black text-2xl md:text-3xl">¡Completá tus datos y jugá!</h3>
