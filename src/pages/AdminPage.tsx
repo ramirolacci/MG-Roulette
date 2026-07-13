@@ -59,11 +59,12 @@ export default function AdminPage({ participants, onBack, onExportCSV }: AdminPa
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col items-center justify-center px-6">
-        <div className="w-full max-w-sm space-y-6">
+      <div className="min-h-screen relative px-6">
+        <div className="absolute inset-0 bg-black/75" />
+        <div className="relative w-full max-w-sm mx-auto space-y-6">
           <div className="text-center space-y-2">
-            <div className="w-20 h-20 bg-red-600 rounded-2xl flex items-center justify-center mx-auto shadow-2xl">
-              <Lock className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 bg-gold rounded-2xl flex items-center justify-center mx-auto shadow-2xl shadow-black/30">
+              <Lock className="w-10 h-10 text-black" />
             </div>
             <h1 className="text-white font-black text-2xl">Panel Admin</h1>
             <p className="text-gray-400 text-sm">Mi Gusto — Reapertura Bella Vista</p>
@@ -76,7 +77,7 @@ export default function AdminPage({ participants, onBack, onExportCSV }: AdminPa
                 placeholder="Contraseña de administrador"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-gray-700 text-white placeholder-gray-400 rounded-xl px-4 py-4 pr-12 text-base outline-none border-2 border-gray-600 focus:border-red-500 transition-colors"
+                className="w-full bg-gray-700 text-white placeholder-gray-400 rounded-xl px-4 py-4 pr-12 text-base outline-none border-2 border-gray-600 focus:border-gold transition-colors"
                 autoFocus
               />
               <button
@@ -89,12 +90,12 @@ export default function AdminPage({ participants, onBack, onExportCSV }: AdminPa
             </div>
 
             {error && (
-              <p className="text-red-400 text-sm text-center">{error}</p>
+              <p className="text-gold text-sm text-center">{error}</p>
             )}
 
             <button
               type="submit"
-              className="w-full bg-red-600 hover:bg-red-500 text-white font-black text-lg py-4 rounded-xl transition-colors"
+              className="w-full bg-gold hover:brightness-110 text-black font-black text-lg py-4 rounded-xl transition-colors"
             >
               Ingresar
             </button>
@@ -113,9 +114,10 @@ export default function AdminPage({ participants, onBack, onExportCSV }: AdminPa
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen relative bg-transparent text-white">
+      <div className="absolute inset-0 bg-black/80" />
       {/* Admin header */}
-      <div className="bg-gray-900 text-white px-6 py-4 flex items-center gap-4 shadow-lg">
+      <div className="relative bg-[#111111] text-white px-6 py-4 flex items-center gap-4 shadow-lg border-b border-white/10">
         <button
           onClick={onBack}
           className="w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors"
@@ -138,16 +140,16 @@ export default function AdminPage({ participants, onBack, onExportCSV }: AdminPa
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 px-6 py-4">
         {[
-          { icon: Users, label: 'Participantes', value: stats.total, color: 'bg-blue-500' },
-          { icon: Trophy, label: 'Con premio', value: stats.withPrize, color: 'bg-green-500' },
-          { icon: Mail, label: 'Con marketing', value: stats.marketing, color: 'bg-red-500' },
+          { icon: Users, label: 'Participantes', value: stats.total, color: 'bg-gold text-black' },
+          { icon: Trophy, label: 'Con premio', value: stats.withPrize, color: 'bg-white/10 text-white' },
+          { icon: Mail, label: 'Con marketing', value: stats.marketing, color: 'bg-white/10 text-white' },
         ].map(({ icon: Icon, label, value, color }) => (
-          <div key={label} className="bg-white rounded-2xl p-4 shadow-sm text-center">
+          <div key={label} className="bg-[#131313] rounded-2xl p-4 shadow-sm text-center border border-white/10">
             <div className={`w-10 h-10 ${color} rounded-xl flex items-center justify-center mx-auto mb-2`}>
-              <Icon className="w-5 h-5 text-white" />
+              <Icon className="w-5 h-5" />
             </div>
-            <div className="text-2xl font-black text-gray-800">{value}</div>
-            <div className="text-gray-500 text-xs font-medium">{label}</div>
+            <div className="text-2xl font-black text-white">{value}</div>
+            <div className="text-gray-400 text-xs font-medium">{label}</div>
           </div>
         ))}
       </div>
@@ -159,19 +161,19 @@ export default function AdminPage({ participants, onBack, onExportCSV }: AdminPa
           placeholder="Buscar por nombre, email o barrio..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-white rounded-xl px-4 py-3 text-gray-700 border-2 border-gray-200 focus:border-red-400 outline-none transition-colors text-sm"
+          className="w-full bg-[#111111] rounded-xl px-4 py-3 text-white border-2 border-white/10 focus:border-gold outline-none transition-colors text-sm"
         />
       </div>
 
       {/* Table */}
-      <div className="flex-1 px-6 pb-6 overflow-auto">
+      <div className="relative flex-1 px-6 pb-6 overflow-auto">
         {filtered.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
             <Users className="w-12 h-12 mx-auto mb-3 opacity-30" />
             <p className="font-medium">Sin participantes aún</p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-[#111111] rounded-2xl shadow-sm overflow-hidden border border-white/10">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b border-gray-200">
@@ -193,7 +195,7 @@ export default function AdminPage({ participants, onBack, onExportCSV }: AdminPa
                           {Icon && <Icon className="w-3 h-3" />}
                           {label}
                           {sortField === key && (
-                            <span className="text-red-500">{sortDir === 'asc' ? '↑' : '↓'}</span>
+                            <span className="text-gold">{sortDir === 'asc' ? '↑' : '↓'}</span>
                           )}
                         </span>
                       </th>

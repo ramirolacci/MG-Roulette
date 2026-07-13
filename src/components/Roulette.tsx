@@ -32,14 +32,24 @@ export default function Roulette({ prizes, targetIndex, spinning, onSpinEnd }: R
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Shadow
+    const wheelGradient = ctx.createRadialGradient(cx, cy, radius * 0.2, cx, cy, radius);
+    wheelGradient.addColorStop(0, '#ffffff');
+    wheelGradient.addColorStop(0.7, '#f7f7f7');
+    wheelGradient.addColorStop(1, '#ececec');
+
     ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.3)';
-    ctx.shadowBlur = 24;
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = wheelGradient;
     ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.95, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+    ctx.lineWidth = 10;
+    ctx.stroke();
     ctx.restore();
 
     prizes.forEach((prize, i) => {
@@ -53,49 +63,54 @@ export default function Roulette({ prizes, targetIndex, spinning, onSpinEnd }: R
       ctx.closePath();
       ctx.fillStyle = prize.color;
       ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+      ctx.lineWidth = 1.8;
       ctx.stroke();
+
+      // Divider line from center to outer edge
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(startA + sliceAngle) * radius, cy + Math.sin(startA + sliceAngle) * radius);
+      ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+      ctx.restore();
 
       // Text
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(startA + sliceAngle / 2);
-      ctx.textAlign = 'right';
+      ctx.textAlign = 'center';
 
-      // Emoji
-      ctx.font = `${radius * 0.12}px serif`;
-      ctx.fillText(prize.emoji, radius * 0.82, radius * 0.05);
-
-      // Label
-      const fontSize = Math.max(10, radius * 0.075);
+      const fontSize = Math.max(10, radius * 0.07);
       ctx.font = `bold ${fontSize}px Inter, system-ui, sans-serif`;
       ctx.fillStyle = prize.textColor;
-      ctx.shadowColor = 'rgba(0,0,0,0.4)';
-      ctx.shadowBlur = 4;
+      ctx.shadowColor = 'rgba(0,0,0,0.25)';
+      ctx.shadowBlur = 2;
 
-      const maxWidth = radius * 0.6;
-      const words = prize.label.split(' ');
-      if (words.length <= 2 || prize.label.length <= 10) {
-        ctx.fillText(prize.label, radius * 0.8, radius * 0.06);
-      } else {
-        const mid = Math.ceil(words.length / 2);
-        ctx.fillText(words.slice(0, mid).join(' '), radius * 0.8, -fontSize * 0.4, maxWidth);
-        ctx.fillText(words.slice(mid).join(' '), radius * 0.8, fontSize * 0.7, maxWidth);
-      }
+      const labelRadius = radius * 0.72;
+      const emojiY = -radius * 0.04;
+      const labelY = radius * 0.06;
+
+      ctx.font = `${Math.max(12, radius * 0.09)}px serif`;
+      ctx.fillText(prize.emoji, labelRadius * 0.9, emojiY);
+
+      ctx.font = `bold ${fontSize}px Inter, system-ui, sans-serif`;
+      ctx.fillText(prize.label, labelRadius * 0.9, labelY, radius * 0.7);
 
       ctx.restore();
     });
 
     // Center circle
     ctx.beginPath();
-    ctx.arc(cx, cy, radius * 0.12, 0, 2 * Math.PI);
-    ctx.fillStyle = '#fff';
-    ctx.shadowColor = 'rgba(0,0,0,0.2)';
-    ctx.shadowBlur = 8;
+    ctx.arc(cx, cy, radius * 0.14, 0, 2 * Math.PI);
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(0,0,0,0.18)';
+    ctx.shadowBlur = 12;
     ctx.fill();
-    ctx.strokeStyle = '#E53E3E';
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#e53e3e';
+    ctx.lineWidth = 2.5;
     ctx.stroke();
 
     // Center logo
@@ -107,7 +122,7 @@ export default function Roulette({ prizes, targetIndex, spinning, onSpinEnd }: R
     // Outer ring
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
-    ctx.strokeStyle = '#C53030';
+    ctx.strokeStyle = '#b45309';
     ctx.lineWidth = 4;
     ctx.stroke();
   };
@@ -153,14 +168,14 @@ export default function Roulette({ prizes, targetIndex, spinning, onSpinEnd }: R
     <div className="relative flex items-center justify-center">
       {/* Pointer */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-20 flex flex-col items-center">
-        <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[28px] border-l-transparent border-r-transparent border-t-red-600 drop-shadow-lg" />
+        <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[28px] border-l-transparent border-r-transparent border-t-gold drop-shadow-lg" />
       </div>
 
       <canvas
         ref={canvasRef}
-        width={360}
-        height={360}
-        className="rounded-full shadow-2xl"
+        width={480}
+        height={480}
+        className="rounded-full shadow-[0_20px_55px_rgba(0,0,0,0.35)]"
         style={{ maxWidth: '100%', maxHeight: '100%' }}
       />
     </div>

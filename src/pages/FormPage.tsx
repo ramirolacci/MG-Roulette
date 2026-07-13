@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, User, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, MapPin } from 'lucide-react';
 import { Participant } from '../types';
 import { generateId } from '../utils/id';
 
@@ -24,9 +24,20 @@ interface FormErrors {
 }
 
 const NEIGHBORHOODS = [
-  'Bella Vista', 'San Miguel', 'Palermo', 'Belgrano', 'Villa del Parque',
-  'Flores', 'Caballito', 'Almagro', 'Balvanera', 'San Cristóbal',
-  'Recoleta', 'San Telmo', 'Mataderos', 'Villa Urquiza', 'Otro',
+  'Bella Vista',
+  'Villa Ballester',
+  'Villa Bosch',
+  'Villa Adelina',
+  'Munro',
+  'Villa Pueyrredón',
+  'Belgrano',
+  'Palermo',
+  'Colegiales',
+  'Núñez',
+  'Saavedra',
+  'Villa Devoto',
+  'Villa Ortúzar',
+  'Otro',
 ];
 
 export default function FormPage({ onBack, onSubmit }: FormPageProps) {
@@ -89,19 +100,21 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
   };
 
   const inputClass = (field: keyof FormErrors) =>
-    `w-full bg-white rounded-xl px-4 py-4 text-gray-800 text-lg border-2 outline-none transition-colors ${
+    `w-full bg-[#1b1b1b] rounded-xl px-4 py-4 text-white text-lg border-2 outline-none transition-colors ${
       errors[field] && touched[field]
-        ? 'border-red-400 focus:border-red-500'
-        : 'border-gray-200 focus:border-red-500'
+        ? 'border-gold focus:border-gold'
+        : 'border-white/10 focus:border-gold'
     }`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-600 to-orange-500 flex flex-col">
-      {/* Header */}
-      <div className="flex items-center gap-4 px-6 pt-8 pb-4">
+    <div className="min-h-screen flex flex-col relative overflow-hidden">
+      <div className="absolute inset-0 bg-black/70" />
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-3xl flex-col px-4 py-6 sm:px-6">
+        {/* Header */}
+        <div className="relative flex items-center gap-4 py-4">
         <button
           onClick={onBack}
-          className="w-12 h-12 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-colors"
+          className="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors border border-white/10"
         >
           <ArrowLeft className="w-6 h-6 text-white" />
         </button>
@@ -110,97 +123,101 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
           <p className="text-white/80 text-sm">Paso 1 de 2</p>
         </div>
         {/* Logo */}
-        <div className="ml-auto w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-          <span className="text-lg">🥟</span>
+        <div className="ml-auto w-10 h-10 bg-white/10 rounded-full flex items-center justify-center shadow-lg border border-white/10">
+          <img src={new URL('/LOGOBOT.png', import.meta.url).href} alt="Mi Gusto" className="w-8 h-8 object-contain" />
         </div>
       </div>
 
-      {/* Progress bar */}
-      <div className="px-6 mb-2">
-        <div className="w-full h-2 bg-white/20 rounded-full">
-          <div className="h-2 bg-yellow-400 rounded-full w-1/2 transition-all duration-500" />
+        {/* Progress bar */}
+        <div className="relative px-0 mb-4">
+          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-2 bg-gold rounded-full w-1/2 transition-all duration-500" />
+          </div>
         </div>
-      </div>
 
-      {/* Form card */}
-      <form
-        onSubmit={handleSubmit}
-        className="flex-1 bg-gray-50 rounded-t-3xl mt-4 px-6 pt-8 pb-6 flex flex-col gap-5 overflow-y-auto"
-      >
-        <div className="text-center mb-2">
-          <h3 className="text-gray-800 font-black text-xl">¡Completá tus datos y jugá!</h3>
-          <p className="text-gray-500 text-sm mt-1">Todos los campos son obligatorios</p>
+        {/* Form card */}
+        <form
+          onSubmit={handleSubmit}
+          className="relative w-full mt-3 mb-4 bg-[#111111] border border-white/10 rounded-[32px] px-6 pt-8 pb-6 flex flex-col gap-6"
+        >
+        <div className="text-center mb-2 px-2 sm:px-0">
+          <h3 className="text-white font-black text-2xl md:text-3xl">¡Completá tus datos y jugá!</h3>
+          <p className="text-gray-400 text-sm md:text-base mt-1">Todos los campos son obligatorios</p>
         </div>
 
         {/* Name */}
         <div className="space-y-1">
-          <label className="text-gray-600 text-sm font-semibold flex items-center gap-1">
-            <User className="w-4 h-4" /> Nombre completo
+          <label className="text-white text-base md:text-lg font-black flex items-center gap-2">
+            <User className="w-5 h-5" /> Nombre completo <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
-            placeholder="Ej: María García"
+            placeholder="Ingresar nombre completo"
             value={form.name}
             onChange={(e) => handleChange('name', e.target.value)}
             onBlur={() => handleBlur('name')}
             className={inputClass('name')}
             autoComplete="name"
+            required
           />
           {errors.name && touched.name && (
-            <p className="text-red-500 text-sm">{errors.name}</p>
+            <p className="text-gold text-sm">{errors.name}</p>
           )}
         </div>
 
         {/* Email */}
         <div className="space-y-1">
-          <label className="text-gray-600 text-sm font-semibold flex items-center gap-1">
-            <Mail className="w-4 h-4" /> Email
+          <label className="text-white text-base md:text-lg font-black flex items-center gap-2">
+            <Mail className="w-5 h-5" /> Email <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
-            placeholder="Ej: maria@ejemplo.com"
+            placeholder="Ingresar Email"
             value={form.email}
             onChange={(e) => handleChange('email', e.target.value)}
             onBlur={() => handleBlur('email')}
             className={inputClass('email')}
             autoComplete="email"
             inputMode="email"
+            required
           />
           {errors.email && touched.email && (
-            <p className="text-red-500 text-sm">{errors.email}</p>
+            <p className="text-gold text-sm">{errors.email}</p>
           )}
         </div>
 
         {/* Phone */}
         <div className="space-y-1">
-          <label className="text-gray-600 text-sm font-semibold flex items-center gap-1">
-            <Phone className="w-4 h-4" /> Teléfono
+          <label className="text-white text-base md:text-lg font-black flex items-center gap-2">
+            <Phone className="w-5 h-5" /> Teléfono <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
-            placeholder="Ej: 11 4567-8901"
+            placeholder="Ingresar numero de celular"
             value={form.phone}
             onChange={(e) => handleChange('phone', e.target.value)}
             onBlur={() => handleBlur('phone')}
             className={inputClass('phone')}
             autoComplete="tel"
             inputMode="tel"
+            required
           />
           {errors.phone && touched.phone && (
-            <p className="text-red-500 text-sm">{errors.phone}</p>
+            <p className="text-gold text-sm">{errors.phone}</p>
           )}
         </div>
 
         {/* Neighborhood */}
         <div className="space-y-1">
-          <label className="text-gray-600 text-sm font-semibold flex items-center gap-1">
-            <MapPin className="w-4 h-4" /> Barrio
+          <label className="text-white text-base md:text-lg font-black flex items-center gap-2">
+            <MapPin className="w-5 h-5" /> Barrio <span className="text-red-500">*</span>
           </label>
           <select
             value={form.neighborhood}
             onChange={(e) => handleChange('neighborhood', e.target.value)}
             onBlur={() => handleBlur('neighborhood')}
             className={`${inputClass('neighborhood')} cursor-pointer`}
+            required
           >
             <option value="">Seleccioná tu barrio</option>
             {NEIGHBORHOODS.map((n) => (
@@ -208,12 +225,12 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
             ))}
           </select>
           {errors.neighborhood && touched.neighborhood && (
-            <p className="text-red-500 text-sm">{errors.neighborhood}</p>
+            <p className="text-gold text-sm">{errors.neighborhood}</p>
           )}
         </div>
 
         {/* Marketing checkbox */}
-        <label className="flex items-start gap-3 p-4 bg-red-50 border-2 border-red-100 rounded-xl cursor-pointer hover:border-red-200 transition-colors">
+        <label className="flex items-start gap-3 p-5 bg-white/5 border border-white/10 rounded-2xl cursor-pointer hover:border-white/20 transition-colors">
           <div className="relative mt-0.5 flex-shrink-0">
             <input
               type="checkbox"
@@ -222,34 +239,34 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
               className="sr-only"
             />
             <div className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-colors ${
-              form.acceptsMarketing ? 'bg-red-600 border-red-600' : 'bg-white border-gray-300'
+              form.acceptsMarketing ? 'bg-gold border-gold' : 'bg-black border-white/20'
             }`}>
               {form.acceptsMarketing && (
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               )}
             </div>
           </div>
-          <span className="text-gray-600 text-sm leading-relaxed">
+          <span className="text-gray-300 text-sm leading-relaxed">
             Acepto recibir comunicaciones, promociones y novedades de{' '}
-            <strong className="text-red-600">Mi Gusto</strong>. Podés darte de baja cuando quieras.
+            <strong className="text-gold">Mi Gusto</strong>. Podés darte de baja cuando quieras.
           </span>
         </label>
 
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-red-600 hover:bg-red-500 active:scale-95 text-white font-black text-xl py-5 rounded-2xl shadow-lg transition-all duration-200 flex items-center justify-center gap-3 border-b-4 border-red-800 mt-2"
+          className="w-full bg-gold hover:brightness-110 active:scale-95 text-black font-black text-2xl md:text-3xl py-5 rounded-2xl shadow-lg transition-all duration-200 flex items-center justify-center gap-3 border-b-4 border-[#a67c20] mt-2"
         >
-          ¡Girar la ruleta!
-          <ChevronRight className="w-6 h-6" />
+          ¡Enviar!
         </button>
 
         <p className="text-gray-400 text-xs text-center">
           Tus datos son confidenciales y no serán compartidos con terceros.
         </p>
       </form>
+      </div>
     </div>
   );
 }
