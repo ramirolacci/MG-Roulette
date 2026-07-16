@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Participant } from '../types';
+import { supabase } from '../utils/supabase';
 
 const STORAGE_KEY = 'migusto_participants';
 
@@ -13,19 +14,83 @@ export function useParticipants() {
     }
   });
 
-  const addParticipant = useCallback((participant: Participant) => {
+  // Cargar participantes de Supabase al iniciar
+  useEffect(() => {
+    async function loadParticipants() {
+      try {
+        const { data, error } = await supabase
+          .from('participants')
+          .select('*')
+          .order('timestamp', { ascending: false });
+
+        if (error) {
+          console.error('Error al cargar participantes de Supabase:', error.message);
+          return;
+        }
+
+        if (data) {
+          const mapped: Participant[] = data.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            email: item.email,
+            phone: item.phone,
+            neighborhood: item.neighborhood,
+            acceptsMarketing: item.accepts_marketing,
+            prizeId: item.prize_id,
+            prizeLabel: item.prize_label,
+            timestamp: item.timestamp || new Date().toISOString(),
+          }));
+          setParticipants(mapped);
+          
+          // Sincronizar localmente también
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(mapped));
+        }
+      } catch (err) {
+        console.error('Error de red/servidor al cargar participantes:', err);
+      }
+    }
+
+    loadParticipants();
+  }, []);
+
+  const addParticipant = useCallback(async (participant: Participant) => {
+    // 1. Actualizar estado local inmediatamente para UX fluida
     setParticipants((prev) => {
       const updated = [...prev, participant];
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
       } catch {
-        // localStorage unavailable — data lives in memory only
+        // silent fallback
       }
       return updated;
     });
+
+    // 2. Guardar en Supabase
+    try {
+      const { error } = await supabase.from('participants').insert([
+        {
+          id: participant.id,
+          name: participant.name,
+          email: participant.email,
+          phone: participant.phone,
+          neighborhood: participant.neighborhood,
+          accepts_marketing: participant.acceptsMarketing,
+          prize_id: participant.prizeId,
+          prize_label: participant.prizeLabel,
+          timestamp: participant.timestamp,
+        },
+      ]);
+
+      if (error) {
+        console.error('Error al insertar participante en Supabase:', error.message);
+      }
+    } catch (err) {
+      console.error('Error de red al guardar participante:', err);
+    }
   }, []);
 
-  const updateParticipantPrize = useCallback((id: string, prizeId: number, prizeLabel: string) => {
+  const updateParticipantPrize = useCallback(async (id: string, prizeId: number, prizeLabel: string) => {
+    // 1. Actualizar local
     setParticipants((prev) => {
       const updated = prev.map((p) =>
         p.id === id ? { ...p, prizeId, prizeLabel } : p
@@ -37,6 +102,23 @@ export function useParticipants() {
       }
       return updated;
     });
+
+    // 2. Actualizar en Supabase
+    try {
+      const { error } = await supabase
+        .from('participants')
+        .update({
+          prize_id: prizeId,
+          prize_label: prizeLabel,
+        })
+        .eq('id', id);
+
+      if (error) {
+        console.error('Error al actualizar premio en Supabase:', error.message);
+      }
+    } catch (err) {
+      console.error('Error de red al actualizar premio:', err);
+    }
   }, []);
 
   const exportCSV = useCallback(() => {
@@ -65,3 +147,4 @@ export function useParticipants() {
 
   return { participants, addParticipant, updateParticipantPrize, exportCSV };
 }
+

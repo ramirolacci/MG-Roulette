@@ -63,3 +63,30 @@
   0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
+
+@keyframes spin-reel {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+.animate-reel-slow {
+  animation: spin-reel 8s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-reel-medium {
+  animation: spin-reel 6s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.animate-reel-fast {
+  animation: spin-reel 4s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}

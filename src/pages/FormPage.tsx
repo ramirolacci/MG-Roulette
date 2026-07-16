@@ -50,6 +50,7 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const validate = (data: FormData): FormErrors => {
     const errs: FormErrors = {};
@@ -93,10 +94,12 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
       timestamp: new Date().toISOString(),
     };
 
-    // TODO: POST participant to REST endpoint
-    // await fetch('/api/participants', { method: 'POST', body: JSON.stringify(participant) });
+    // Mostrar pantalla de éxito con tilde verde antes de redireccionar
+    setShowSuccess(true);
 
-    onSubmit(participant);
+    setTimeout(() => {
+      onSubmit(participant);
+    }, 1800);
   };
 
   const inputClass = (field: keyof FormErrors) =>
@@ -105,6 +108,34 @@ export default function FormPage({ onBack, onSubmit }: FormPageProps) {
         ? 'border-gold focus:border-gold'
         : 'border-white/10 focus:border-gold'
     }`;
+
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#050505] text-white p-6 relative">
+        <div className="text-center space-y-6 max-w-sm w-full bg-[#111111] border border-white/10 p-8 rounded-[32px] shadow-2xl relative z-10">
+          {/* Círculo con Tilde Verde */}
+          <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center border-4 border-green-500 mx-auto">
+            <svg 
+              className="w-10 h-10 text-green-500" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor" 
+              strokeWidth={4.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+
+          <div className="space-y-2">
+            <h2 className="text-white font-black text-2xl">¡Datos Enviados!</h2>
+            <p className="text-gray-400 text-sm font-bold">
+              Tu participación ha sido registrada correctamente.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
